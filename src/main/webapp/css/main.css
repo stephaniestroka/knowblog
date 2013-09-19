@@ -1,0 +1,59 @@
+.mypager {
+    list-style: none outside none;
+    margin: 20px 0;
+    text-align: center;
+}
+:in-range.mypager:before, .mypager:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.mypager:after {
+    clear: both;
+}
+.mypager li {
+    display: inline;
+}
+.mypager li > form a, .mypager li > span {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 15px 15px 15px 15px;
+    display: inline-block;
+    padding: 5px 14px;
+}
+.mypager li > form a:hover, .mypager li > form a:focus {
+    background-color: #F5F5F5;
+    text-decoration: none;
+}
+.mypager .mynext > form a, .mypager .mynext > form span {
+    float: right;
+}
+.mypager .myprevious > form a, .mypager .myprevious > span {
+    float: left;
+}
+.mydisabled > a, .mydisabled > a:hover, .mydisabled > a:focus, .mydisabled > span {
+    background-color: #FFFFFF;
+    color: #999999;
+    cursor: default;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title></title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/main.css"/>
+<!--        <link rel="stylesheet" href="css/bootstrap-fileupload.min.css"/>
+        <link rel="stylesheet" href="css/bootstrap-fileupload.css"/>-->
+        <!--<link rel="stylesheet" href="css/jquery.fileupload-ui.css"/>-->
+        
+        <!--<script src="js/bootstrap-fileupload.min.js"></script>-->
+        <!--<script src="js/vendor/jquery.ui.widget.js"></script>-->
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/jquery-1.10.1.js"></script>
+        <!--<script src="js/vendor/bootstrap.min.js"></script>-->
+<!--        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>-->
+        <!-- The basic File Upload plugin -->
+        <!--<script src="js/jquery.fileupload.js"></script>-->
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">StexX - Blog</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Programming</a></li>
+                                    <li><a href="#">Traveling</a></li>
+                                    <li><a href="#">Fun</a></li>
+                                    <li class="divider"></li>
+                                    <li class="nav-header">Nav header</li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--<form class="navbar-form pull-right">
+                            <input class="span2" type="text" placeholder="Email"/>
+                            <input class="span2" type="password" placeholder="Password"/>
+                            <button type="submit" class="btn">Sign in</button>
+                        </form>-->
+                        <ul class="nav pull-right">
+                            <li><a href="?login">Sign in</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <form class="text-center" method="post" action="/knowblog/create">
+                <div class="page-header">
+                    <div class="text-left">
+                        <input name="title" value="Title"/>
+                    </div>
+                </div>
+                <div>
+                    <p><textarea name="content" class="span12" style="height: 500px; resize: none;"></textarea></p>
+                </div>
+                <div class="control-group">
+                    <div class="controls form-inline">
+                        <div class="text-left">
+                            <input name="tags" class="text-left input-small" value="Tags"/>
+                            <input name="cat" class="text-left input-small" value="Category"/>
+                        </div>
+                    </div>
+                    <div class="controls form-inline">
+                        <div class="text-left">
+                            <h4>Files available for linking:</h4>
+                            <ul id="images"></ul>
+                        </div>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="button" name="cancel" class="btn">Cancel</button>
+                        <button type="Submit" name="submit" class="btn">Create</button>
+                    </div>
+                </div>
+            </form>
+
+              <!-- Button trigger modal -->
+            <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Upload image</a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Upload image</h4>
+                  </div>
+                    <form enctype="multipart/form-data" method="post" id="uploadImageForm">
+                        <div class="modal-body">
+                          <div class="fileupload fileupload-new" data-provides="fileupload">
+                              <div>
+                                  <span class="btn btn-file">
+                                    <input id="uploadImageInput" type="file" name="uploadImage"/>
+                                  </span>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button onclick="stxUpload()" type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                    
+                    <script type="text/javascript">
+                        function stxUpload() {
+                            var formData = new FormData($('#uploadImageForm')[0]);
+                            $.ajax({
+                                url: 'https://localhost:8443/knowblog/uploadimage',  //Server script to process data
+                                type: 'POST',
+                                //Ajax events
+                                // Form data
+                                data: formData,
+                                //Options to tell jQuery not to process data or worry about content-type.
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                            });
+                            $('#myModal').modal('hide')
+                            $('#images').append($("<li>").text('images/' + $('#uploadImageInput').val()))
+                        }
+                    </script>
+
+<!--                     The fileinput-button span is used to style the file input field as button 
+                    <form method="post" action="/uploadimage">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Select files...</span>
+                             The file input field used as target for the file upload widget 
+                            <input id="fileupload" type="file" name="files[]" />
+                        </span>
+                        <br/>
+                        <br/>
+                         The global progress bar 
+                        <div id="progress" class="progress">
+                            <div class="progress-bar progress-bar-success"></div>
+                        </div>
+                         The container for the uploaded files 
+                        <div id="files" class="files"></div>
+                        <br/>
+                    </form>-->
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <br/>
+            <hr/>
+
+<!--            <footer>
+                <small>
+                    <p><a href="http://creativecommons.org/licenses/by-nc/3.0/"><img style="height: 23px" src="img/cc_by_nc.png"/></a></p>
+                </small>
+            </footer>-->
+
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.js"></script>
+        <script><!--window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.js"><\/script>');--></script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="js/main.js"></script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
